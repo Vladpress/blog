@@ -4,12 +4,18 @@ import Link from 'next/link';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import config from '../next.config';
+import { NextPageContext } from 'next';
 
+import { MyPost } from '../interfaces/post';
 import MainLayout from '../components/MainLayout';
 
 const { H1, PostList, Title, Body, Post } = styles;
 
-export default function Posts({ posts: serverPosts }) {
+interface PostPageTS {
+  posts: MyPost[]
+}
+
+export default function Posts({ posts: serverPosts }: PostPageTS) {
   const [posts, setPosts] = useState(serverPosts);
 
   useEffect(() => {
@@ -65,7 +71,7 @@ export default function Posts({ posts: serverPosts }) {
   )
 }
 
-Posts.getInitialProps = async ({ req }) => {
+Posts.getInitialProps = async ({ req }: NextPageContext) => {
   
   if(!req) return { posts:null }
 
