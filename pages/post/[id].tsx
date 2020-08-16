@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import PropTypes from 'prop-types';
 import MainLayout from '../../components/MainLayout';
+import config from '../../next.config';
 
 export default function Post({ post: serverPost }) {
   const [post, setPost] = useState(serverPost)
@@ -10,7 +11,7 @@ export default function Post({ post: serverPost }) {
 
   useEffect(() => {
     async function load() {
-      const response = await fetch(`https://simple-blog-api.crew.red/posts/${router.query.id}`);
+      const response = await fetch(`${config.env.API_URL + router.query.id}`);
       const data = await response.json();
       setPost(data);
     }
@@ -38,8 +39,8 @@ export default function Post({ post: serverPost }) {
 
 Post.getInitialProps = async ({ query, req }) => {
   if (!req) return {post: null}
-  console.log(typeof query.id);
-  const response = await fetch(`https://simple-blog-api.crew.red/posts/${ query.id }`);
+  
+  const response = await fetch(`${config.env.API_URL + query.id }`);
   const post = await response.json();
 
   return {

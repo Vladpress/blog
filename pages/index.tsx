@@ -3,6 +3,7 @@ import * as styles from '../styles/styled/posts';
 import Link from 'next/link';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
+import config from '../next.config';
 
 import MainLayout from '../components/MainLayout';
 
@@ -13,7 +14,7 @@ export default function Posts({ posts: serverPosts }) {
 
   useEffect(() => {
     async function load() {
-      const response = await fetch('https://simple-blog-api.crew.red/posts');
+      const response = await fetch(config.env.API_URL);
       const json = await response.json();
       setPosts(json);
     }
@@ -68,7 +69,7 @@ Posts.getInitialProps = async ({ req }) => {
   
   if(!req) return { posts:null }
 
-  const response = await fetch('https://simple-blog-api.crew.red/posts');
+  const response = await fetch(config.env.API_URL);
   const posts = await response.json();
 
   return {
